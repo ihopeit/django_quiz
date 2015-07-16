@@ -11,7 +11,10 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 
 from model_utils.managers import InheritanceManager
+import sys
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 class CategoryManager(models.Manager):
 
@@ -260,7 +263,8 @@ class Progress(models.Model):
                                            isinstance(possible_to_add, int)]]):
             return _("error"), _("category does not exist or invalid score")
 
-        to_find = re.escape(str(question.category)) +\
+        #to_find = re.escape(str(question.category)) +\
+        to_find = re.escape(unicode(question.category)) +\
             r",(?P<score>\d+),(?P<possible>\d+),"
 
         match = re.search(to_find, self.score, re.IGNORECASE)
